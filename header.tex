@@ -1,0 +1,141 @@
+\documentclass[xcolor=table,compress,blue,12pt]{beamer}
+\mode<presentation>
+
+
+%\usetheme{Warsaw}
+%\usetheme{Antibes}
+\usetheme{JuanLesPins} % A good theme which eliminates the bottom lines
+%\usetheme{Singapore}%Good for release to print
+
+% other themes: AnnArbor, Antibes, Bergen, Berkeley, Berlin, Boadilla, boxes, CambridgeUS, Copenhagen, Darmstadt, default, Dresden, Frankfurt, Goettingen,
+% Hannover, Ilmenau, JuanLesPins, Luebeck, Madrid, Maloe, Marburg, Montpellier, PaloAlto, Pittsburg, Rochester, Singapore, Szeged, classic
+
+%\usecolortheme{whale}
+% color themes: albatross, beaver, beetle, crane, default, dolphin, dov, fly, lily, orchid, rose, seagull, seahorse, sidebartab, structure, whale, wolverine
+
+\usefonttheme{serif}
+%\usefonttheme{professionalfonts}
+% font themes: default, professionalfonts, serif, structurebold, structureitalicserif, structuresmallcapsserif
+
+% pdf is displayed in full screen mode automatically
+
+%\hypersetup{pdfpagemode=FullScreen}
+
+% define your own colours:
+\definecolor{Red}{rgb}{1,0,0}
+\definecolor{Blue}{rgb}{0,0,1}
+\definecolor{Green}{rgb}{0,1,0}
+\definecolor{magenta}{rgb}{1,0,.6}
+\definecolor{lightblue}{rgb}{0,.5,1}
+\definecolor{skyblue}{rgb}{.75,1,1}
+\definecolor{lightpurple}{rgb}{.6,.4,1}
+\definecolor{gold}{rgb}{.6,.5,0}
+\definecolor{orange}{rgb}{1,0.4,0}
+\definecolor{hotpink}{rgb}{1,0,0.5}
+\definecolor{newcolor}{rgb}{0,.3,1} 
+\definecolor{newcolor3}{rgb}{1,0,.35}
+\definecolor{darkgreen1}{rgb}{0, .35, 0}
+\definecolor{darkgreen}{rgb}{0, .4, 0}
+\definecolor{darkred}{rgb}{.75,0,0}
+
+\xdefinecolor{olive}{cmyk}{0.64,0,0.95,0.4}
+\xdefinecolor{purpleish}{cmyk}{0.75,0.75,0,0}
+
+% \usepackage{beamerinnertheme_______}
+% inner themes include circles, default, inmargin, rectangles, rounded
+
+%\usepackage{beamerouterthemesmoothbars}
+% outer themes include default, infolines, miniframes, shadow, sidebar, smoothbars, smoothtree, split, tree
+
+\useoutertheme[subsection=false]{smoothbars}
+
+% to have the same footer on all slides
+%\setbeamertemplate{footline}[text line]{xxx xxx xxx}
+%\setbeamertemplate{footline}[text line]{} % or empty footer
+
+% include packages
+\usepackage{fancyvrb}
+\usepackage{subfigure}
+\usepackage{multicol}
+\usepackage{amsmath}
+%\usepackage{epsfig}
+\usepackage{graphicx}
+%\usepackage[all,knot]{xy}
+%\xyoption{arc}
+\usepackage{url}
+%\usepackage{multimedia}
+\usepackage{hyperref}
+\usepackage{colortbl}
+
+\usepackage{epsfig}
+\usepackage{shortcuts}
+%\usepackage{xcolor=pdftex}
+
+
+% Standard packages
+
+\usepackage[english]{babel}
+\usepackage[latin1]{inputenc}
+\usepackage{times}
+\usepackage[T1]{fontenc}
+
+\usepackage{animate}
+\usepackage{ulem}
+
+%%%
+\usepackage{tikz}
+\usetikzlibrary{shapes,arrows}
+%\tikzstyle{block}=[draw opacity=0.7,line width=1.4cm]
+% Define block styles
+\tikzstyle{decision} = [diamond, draw, fill=blue!20, 
+    text width=4.5em, text badly centered, node distance=3cm, inner sep=0pt]
+\tikzstyle{block} = [rectangle, draw, fill=blue!20, 
+    text width=3em, text centered, rounded corners, minimum height=2em]
+\tikzstyle{line} = [draw, -latex']
+\tikzstyle{cloud} = [draw, ellipse,fill=red!20, node distance=3cm,
+    minimum height=2em]
+\newcommand{\midarrow}{\tikz \draw[-triangle 90] (0,0) -- +(.1,0);}
+
+%%%%%%%%%%%%
+\AtBeginSection[] {
+  \begin{frame}[plain]
+    \frametitle{Outline}
+    \tableofcontents[currentsection]
+  \end{frame}
+  \addtocounter{framenumber}{-1}
+}
+
+\AtBeginSubsection[] {
+  \begin{frame}[plain]
+   \frametitle{Outline}
+    \tableofcontents[currentsubsection]
+    \addtocounter{framenumber}{-1}
+  \end{frame}
+}
+%%%%%%%%%%%
+
+
+\title{\small small title}
+\subtitle{\HUGE }
+\subtitle{Huge title}
+\author{Jason Green}
+\institute{Department of Computer Science\\ University of XXX}
+\date{\scriptsize{April $1^{th}$, 2012}}
+
+\begin{document}
+
+\frame{
+    \titlepage
+}
+
+
+%page 1
+%\section[Outline]{}
+%\frame{\tableofcontents}
+
+\begin{frame}{Outline}
+  \tableofcontents
+\end{frame}
+
+%page 2
+%---------------------------------------------------------------------
