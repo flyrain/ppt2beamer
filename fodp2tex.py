@@ -85,7 +85,7 @@ def apply_style(stylename, text):
                  underline = True
 
     math = False
-#1, italic bold underline
+    #1, italic bold underline
     if  italic == True and courier == True:
         text = "\\textit{%s}"% text
 
@@ -94,12 +94,12 @@ def apply_style(stylename, text):
     if underline == True:
         text = '\\underline{%s}'% text
 
-#2 font family
+    #2 font family
     if courier == True:
         if text[0] == ' ': text = '\\'+text #if text start with a space, then add a backslash at left 
         text = '{\\tt %s}' %text
 
-#3 math
+    #3 math
     if (italic == True and courier == False ) or little == True or up == True:
         math = True
 
@@ -122,8 +122,10 @@ def apply_style(stylename, text):
 
 
 def gen_item(itemlist):
-#generate one line
-#itemlist is text:p's childNodes : plan text or text:span
+    """
+    Generate one line 
+    """
+    #itemlist is text:p's childNodes : plan text or text:span
     linestring =''
     for tt in itemlist: 
         if(tt.nodeType == 3):  #leaf node, plan text
@@ -154,7 +156,9 @@ def gen_item(itemlist):
 
 
 def getListLevel(text):
-#get list's level and style
+    """
+    Get list's level and style
+    """
     textlist={}
     textlist['style'] =''
     level = 0
@@ -185,7 +189,9 @@ def showBullet(listStylename,level):
     return True
 
 def gen_frame(textlist):
-#generate pages
+    """
+    handle one of frames in a page
+    """
     stack =[]  #init list stack
     for text in textlist:
         textlist=getListLevel(text)
