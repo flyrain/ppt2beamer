@@ -221,13 +221,16 @@ def gen_frame(textlist):
                 print ' ' * 2 * len(stack) + itemstr +linestring
 
 
-#complete items
+    #complete items
     for i in range(1,len(stack)+1):
         print ' ' * 2 * (len(stack)+1 -i) + "\\end{itemize}"
 
 
 
 def handle_page(page):
+    """
+    Convert one "draw:page" to one slide of beamer
+    """
     pre_pagename = ''
 
     textps = page.getElementsByTagName("text:p")
