@@ -23,14 +23,15 @@ def txt_replace(text):
     newtxt = newtxt.replace('&lt;',"<").replace('&gt;',">").replace('&amp;','\\&').replace('&quot;','"')
     newtxt = newtxt.replace('&','\\&')
     newtxt = newtxt.replace(u'…', '...').replace(u'“','``').replace(u'”',"''").replace(u'‘',"'").replace(u'’',"'")
-    newtxt = newtxt.replace(u'≤', '$\\leq$').replace(u'',"$'$").replace(u'','$\\delta$')
+    newtxt = newtxt.replace(u'≤', '$\\leq$').replace(u'',"$'$").replace(u'','$\\delta$').replace(u'','$\\leq$').replace(u'','$\\geq$')
+    newtxt = newtxt.replace(u'','$\\not =$')
     newtxt = newtxt.replace(u'|–','$\\vdash$').replace(u'','$\\cup$').replace(u'','$\\nu$')
     newtxt = newtxt.replace(u'•','$\\bullet$').replace(u'','$\\in$').replace(u'','$\\tau$')
-    newtxt = newtxt.replace(u'','$\\times$').replace(u'','$\\varnothing$').replace(u'','$\\vee$')
+    newtxt = newtxt.replace(u'','$\\times$').replace(u'×','$\\times$').replace(u'','$\\varnothing$').replace(u'','$\\vee$')
     newtxt = newtxt.replace(u'','$\\subseteq$')
     #arrow
     newtxt = newtxt.replace(u'','$\\Rightarrow$').replace(u'','$\\leftarrow$').replace(u'','$\\Leftarrow$').replace(u'','$\\rightarrow$')
-
+    newtxt = newtxt.replace(u'','')
     newtxt = newtxt.replace(u'','$\\wedge$').replace(u'´',"$'$")
     newtxt = newtxt.replace(u'','$\\notin$').replace(u'','$\\forall$').replace(u'','$\\exists{}$')
     #em-dash and minus in math
