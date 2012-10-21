@@ -34,6 +34,7 @@ def txt_replace(text):
     newtxt = newtxt.replace(u'','')
     newtxt = newtxt.replace(u'','$\\wedge$').replace(u'´',"$'$")
     newtxt = newtxt.replace(u'','$\\notin$').replace(u'','$\\forall$').replace(u'','$\\exists{}$')
+    newtxt = newtxt.replace(u'→','$\\rightarrow$').replace(u'','$\\rightarrow$')
     #em-dash and minus in math
     newtxt = newtxt.replace(u'—','---').replace(u'–','$-$')
     #Greek letters
