@@ -1,0 +1,368 @@
+#+TITLE:     ALL ABOUT EMACS
+#+AUTHOR:    Yufei Gu
+#+EMAIL:     flyrain000@gmail.com
+* Installation
+** DONE install emacs in rhel-workstation 6  <2012-06-02 Sat 17:55>
+*** yum install emacs  23.1
+- problem: /Wrong number of arguments: called-interactively-p, 1/, 23.1 and later version are not incompatible.
+*** download the latest version: 23.4
+- ./configure
+ - yum install libxpm-devel
+ - yum install libtiff-devel
+ - yum install giflib-devel   failed, download the giflib source package and ./configure make make install
+- make
+- yum remove emacs  --> remove previous version
+- make install
+- Done!
+<2012-06-02 Sat 17:55>
+
+** Install Emacs24 or Emacs Snapshort precompile version(best way) for ubuntu
+https://launchpad.net/~cassou/+archive/emacs
+*** PPA description
+Provides recent emacs versions dedicated to Ubuntu.
+
+- emacs24 will be updated only when I change the build process or when new emacs24 versions are realeased
+- emacs-snapshot are updated between once a week and once every two weeks on average. These versions are created from those of Julien Danjou for Debian unstable: http://emacs.naquadah.org/.
+
+To build this PPA, I created this script: https://gist.github.com/2360655
+
+Please report bugs to https://bugs.launchpad.net/emacs-snapshot/, but before reporting, please follow these steps that will ensure a clean installation:
+
+$ sudo apt-get update
+$ sudo apt-get install
+$ sudo apt-get purge emacs-snapshot-common emacs-snapshot-bin-common emacs-snapshot emacs-snapshot-el emacs-snapshot-gtk emacs23 emacs23-bin-common emacs23-common emacs23-el emacs23-nox emacs23-lucid auctex emacs24 emacs24-bin-common emacs24-common
+
+To add this PPA:
+$ sudo add-apt-repository ppa:cassou/emacs
+$ sudo apt-get update
+
+Then, for emacs-snapshot:
+$ sudo apt-get install emacs-snapshot-el emacs-snapshot-gtk emacs-snapshot
+
+*Or*, for emacs24:
+$ sudo apt-get install emacs24 emacs24-el
+* Package And Configuration
+** iedit
+(define-key global-map (kbd "C-;") 'iedit-mode)
+(define-key isearch-mode-map (kbd "C-;") 'iedit-mode)
+** Kill current buffer
+(global-unset-key (kbd "M-k"))
+(global-set-key (kbd "M-k") 'kill-this-buffer)
+** Auctex install
+*** Installation
+- Download the auctex from http://www.gnu.org/software/auctex/download-for-unix.html
+- configure  make make install
+- add configure to .emacs
+#+BEGIN_SRC lisp
+(load "auctex.el" nil t t)
+(load "preview-latex.el" nil t t)
+
+(mapc (lambda (mode)
+      (add-hook 'LaTeX-mode-hook mode))
+      (list 'auto-fill-mode
+            'LaTeX-math-mode
+            'turn-on-reftex
+            'linum-mode))
+
+(add-hook 'LaTeX-mode-hook
+          (lambda ()
+            (setq TeX-auto-untabify t     ; remove all tabs before saving
+                 ; TeX-engine 'xetex       ; use xelatex default
+                  TeX-show-compilation t) ; display compilation windows
+            (TeX-global-PDF-mode t)       ; PDF mode enable, not plain
+            (setq TeX-save-query nil)
+            (imenu-add-menubar-index)
+            (define-key LaTeX-mode-map (kbd "TAB") 'TeX-complete-symbol)))
+#+END_SRC
+- sudo apt-get install latex-beamer    # beamer.cls not found
+- sudo apt-get install texlive-latex-extra  #  ! LaTeX Error: File `subfigure.sty' not found.
+*** easy way to install
+M-x list-packages, find package auctex, i to mark auctex, x to execute the action.
+*** Usage
+quick instertion
+| C-c C-s | 插入章节        |
+| C-c C-e | 插入 LaTex 环境 |
+| C-c C-j | 插入列表 item   |
+| C-c ]   | 闭合 LaTeX 环境 |
+| C-c C-m | 插入 Tex 宏     |
+
+Change fonts
+| C-c C-f C-b | 插入粗体文本     |
+| C-c C-f C-i | 插入斜体文本     |
+| C-c C-f C-e | 插入强调文本     |
+| C-c C-f C-s | 插入微斜体文本   |
+| C-c C-f C-r | 插入罗马体文本   |
+| C-c C-f C-f | 插入无衬线体文本 |
+| C-c C-f C-t | 插入打印机体字体 |
+| C-c C-f C-c | 插入小型大写文本 |
+| C-c C-f C-d | 删除字体信息     |
+
+- C-c C-c execute command
+- C-c =  show direcotry
+
+** Key binding in windows keyboard
+(global-set-key (kbd "<XF86Back>") 'windmove-left)
+(global-set-key (kbd "<XF86Forward>") 'windmove-right)
+** ecb2.4 install
+1. add
+(setq version-error nil) in ecb-uprade.el
+which means no version check of cedet.
+
+2. correct
+(ecb-enable-own-temp-buffer-show-futition)
+to
+(ecb-enable-own-temp-buffer-show-function)
+in ecb.el
+
+3. delete ecb.elc and ecb-upgrade.elc 
+
+4. M-x byte-compile-file ecb.el and ecb-upgrade.el
+
+5. add (setq stack-trace-on-error t) in .emacs or .emacs.d/init.el 
+
+5. M-x ecb-active
+
+** Magit
+http://vimeo.com/groups/137567/videos/2871241
+https://github.com/magit/magit/blob/master/README.md
+** Google
+(load-file "~/.emacs.d/plugins/google.el")
+(require 'google-search)
+(define-key global-map (kbd "C-c s") 'google-search-selection)
+** Add package sources
+(require 'package)
+(add-to-list 'package-archives 
+    '("marmalade" .
+      "http://marmalade-repo.org/packages/"))
+(package-initialize)
+** shutdown emacs server instance
+(defun server-shutdown ()
+  "Save buffers, Quit, and Shutdown (kill) server"
+  (interactive)
+  (save-some-buffers)
+  (kill-emacs)
+  )
+** Transparent
+(modify-frame-parameters (selected-frame) `((alpha . 95)))
+** use ibus in Emacs <2012-06-07 Thu 23:31>
+- download ibus plugin for emacs from https://launchpad.net/ibus.el
+- $sudo apt-get install python-xlib
+- configure .emacs
+#+BEGIN_SRC lisp
+(add-to-list 'load-path "~/.emacs.d/plugins/ibus-el-0.3.2")
+(require 'ibus)
+(add-hook 'after-init-hook 'ibus-mode-on)
+#+END_SRC
+
+* TODO BLOG Why emacs is powerful? efficiency? <2012-06-05 Tue 02:00>  :blog:emacs:
+** TODO operation style, totally keyboard, and u don't need to take your hands off the keyboard
+** TODO customization, customize everything, easy to customerization with elisp.
+** TODO lots of powerful plugins available
+** TODO lots of powerful mode, such as org-mode, cc-mode, tex-mode
+** TODO flexibility, one main mode + many other mode.
+** TODO minibuffer, easy to input command, sometimes u can even use eshell to input command like shell(like bash)
+** TODO long learning curve, but efficiency after master it.
+** TODO many bright brain contribute the emacs, plugins
+** TODO write lisp, lisp environment.
+** TODO tools in Linux
+diff comm wc sort 
+* ido in emacs
+- find buffers
+- find files in a local/remote machine
+- find commands(verbs)
+- any list of anything
+** What do we want to do with things, once we find them.
+pick an arbitrary verb, and apply it to the thing you just found.
+
+** book
+Writing GNU Emacs Extensions
+
+** What is important in life?
+- Composable abstraction 
+   Vs.
+  Packaged, modal abstraction
+- open source
+ can make personal tools 
+* DONE using gnus <2012-07-10 Tue 01:00> 
+  CLOSED: [2012-07-19 Thu 10:37]
+- Create file ~/.gnus.el
+- Configuration newsgroup or email
+- M-x gnus
+- Group buffer
+ - AA --> list all group 
+ - u  --> subscribe a new newsgroup
+ - L --> return to normal page
+ - u --> unsubcribe a newsgroup
+ - l --> list all newsgroups which have unread messages
+ - A z --> show zombie groups 
+ - A k --> show killed groups
+- Summary buffer
+ - a --> post a new message
+ - f/F --> follow up a post containing original post(F) or not(f).
+ - c --> mark all messages read
+- Article buffer
+ - C-c C-c  --> send message
+ - C-c C-d  --> save as draft 
+ - C-c C-k  --> delete current message
+- C-h i gnus --> for help
+** Installation For Email
+- create file .authinfo.gpg 
+- sudo apt-get install easypg (no need in emacs24)
+- find the gmail inbox in zombie list (no need in emacs24)
+- sudo apt-get install gnutls-bin (no need in emacs24)
+
+* Lisp
+** evaluate in emacs: C-x C-e
+- LOP, Language Oriented Programming
+ - create DSL, use DSL to handle domain problem
+ - campare xml and lisp, they have same power in meta-language 
+- Macro
+ - different with macro in C
+** examples
+   #+begin_src lisp
+(+ 2 4)    ;;6
+
+(if nil 5 6) ;;6
+
+:this-is-a-keyword
+
+(+ 3 3/4)  ;;error
+
+(exp 3)   ;;20.08
+
+(expt 2 3)  ;;8
+
+(cons 4 5) ;;(4 . 5)
+
+(cons  (cons 4 5) 6 )   ;; ((4 . 5) . 6)
+
+(car (cons 4 5))  ;;4
+
+(cdr (cons 4 5))  ;;5
+
+(list 4 5 6)  ;;( 4 5 6)
+
+(cons 4 (cons 5 (cons 6 nil))) ;;( 4 5 6)
+
+(setq lista (list 4 5 6))
+
+(car lista)   ;;4
+
+(cdr lista)  ;;(5 6)
+
+;;stack
+(setq a nil)
+
+(push 4 a) ;; 4
+
+(push 5 a)  ;; (5 4)
+
+(pop a)
+
+;;function
+(+ 3 4 5 6)  ;; 18
+
+;;recursive function
+(defun fact (x)
+    (if (> x 0)
+    (* x (fact (- x 1)) )
+    1)
+)
+
+(fact 5)  ;;120
+
+;;function with multiple statements
+(defun bar (x)
+  (setq x (* x 3))
+  (setq x (/ x 2))
+  (+ x 4))
+
+(bar 6)
+
+;;optional arguments
+(defun bar (x &optional y)
+  (if y x 0))
+
+(bar 3 ) ;;0
+
+(bar 3 1) ;;1
+
+;;Example 2
+(defun baaz (&optional (x 3) (z 10)) (+ x z))
+
+(baaz 5 3) ;; error
+
+;; any number arguments
+(defun foo (x &rest y) y)
+
+(foo 3)  ;; nil
+
+(foo 3 4 5 6 )  ;; (4 5 6)
+
+(defun foo (&key x y) (cons x y))
+
+(foo :x 5 :y 3) ;error 
+
+;;printf
+(print 5)
+;3  printed 
+;3  returned
+
+;;format
+(format  "buffer name:%s, list:%s, integer:%d"  (buffer-name) (list 4 5) 6)
+;; %s and %S
+(setq str "Hello world")
+(format  "string:%s, %S" str str)
+
+;; special form: quote
+(setq a 3)
+
+a
+;3
+
+;; quote prevents its argument from being evaluate.
+(quote a)
+;a
+'a
+;a
+   #+end_src
+* Debug python in emacs(using PDB)
+- M-x pdb RET, pdb fodp2tex.py 02.fodp
+- set breakpoint, i.e. b 258, b useCrash.py:147
+- next: n
+- continue: c
+- help   --> show help
+- exit
+* What is slime
+SLIME (the Superior Lisp Interaction Mode for Emacs) 
+* elisp
+- invoke repl for elisp: M-x RET ielm
+Example: 
+;First
+ELISP> (defun test (str)
+		 (setq hms (split-string str " " t))
+		 (print (format "first %s, second %s, number %d" (pop hms) (pop hms) (+ 1 2) )))
+;Second
+ELISP> (defun test (str)
+		 (let ((hms (split-string str " " t)))
+		 (print (format "first %s, second %s, number %d" (pop hms) (pop hms) (+ 1 2) ))))
+;test
+ELISP> (test "hello world")
+"first hello, second world, number 3"
+
+;construct a list and pop one
+ELISP> (setq ll (list 1 'b 'c ))
+(1 b c)
+
+ELISP> (pop ll)
+1
+ELISP> (print ll)
+(b c)
+
+* eshell 
+** alias
+All aliases will be stored automatically
+e.g.
+alias l 'ls -tlh'
+** case-insensitive
+set eshell-glob-case-insensitive to true. I've tried it, but it not work.
